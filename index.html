@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Demonstration</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        .cookie-banner { background-color: #f0f0f0; border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; text-align: center; }
+        button { padding: 10px 15px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        #cookie-info { margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px; }
+        #cookie-info p { margin-bottom: 10px; }
+        #cookie-info strong { color: #333; }
+    </style>
+</head>
+<body>
+
+    <h1>Web Sitesi Çerezleri</h1>
+
+    <div id="cookie-banner" class="cookie-banner">
+        <p>Bu site, deneyiminizi geliştirmek için çerezleri kullanır. Devam ederek çerez kullanımımızı kabul etmiş olursunuz.</p>
+        <button id="accept-cookies">Kabul Et</button>
+    </div>
+
+    <div id="cookie-info">
+        <h2>Çerez Bilgisi</h2>
+        <p>Tarayıcınızda saklanan çerezler, web sitelerinin sizi hatırlamasına yardımcı olur.</p>
+        <p>Örnek olarak, bir e-ticaret sitesinde sepetinize eklediğiniz ürünleri hatırlamak veya giriş bilgilerinizi kaydetmek için kullanılabilirler.</p>
+        <p>Bu demo, çerezlerin nasıl ayarlandığını ve okunabildiğini göstermektedir.</p>
+    </div>
+
+    <script>
+        const cookieBanner = document.getElementById('cookie-banner');
+        const acceptButton = document.getElementById('accept-cookies');
+
+        // Çerez kabul edilip edilmediğini kontrol et
+        function checkCookieAcceptance() {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                // 'cookieAccepted' adlı bir çerez arıyoruz
+                if (cookie.startsWith('cookieAccepted=')) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Çerez banner'ını göster veya gizle
+        function manageCookieBanner() {
+            if (checkCookieAcceptance()) {
+                cookieBanner.style.display = 'none'; // Çerez kabul edilmişse banner'ı gizle
+            } else {
+                cookieBanner.style.display = 'block'; // Aksi takdirde göster
+            }
+        }
+
+        // 'Kabul Et' butonuna tıklandığında
+        acceptButton.addEventListener('click', () => {
+            // 'cookieAccepted' adında bir çerez ayarla, 1 yıl geçerli olsun
+            document.cookie = "cookieAccepted=true; expires=" + new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString() + "; path=/";
+            manageCookieBanner(); // Banner'ı güncelle
+        });
+
+        // Sayfa yüklendiğinde banner'ı yönet
+        window.onload = manageCookieBanner;
+    </script>
+
+</body>
+</html>
